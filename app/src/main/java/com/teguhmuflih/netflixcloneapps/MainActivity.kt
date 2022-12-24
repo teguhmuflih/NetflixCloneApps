@@ -5,12 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.teguhmuflih.netflixcloneapps.data.MovieDatasource
+import com.teguhmuflih.netflixcloneapps.domain.model.movie.Movie
+import com.teguhmuflih.netflixcloneapps.ui.component.MovieAppBar
+import com.teguhmuflih.netflixcloneapps.ui.screen.MovieGridScreen
 import com.teguhmuflih.netflixcloneapps.ui.screen.MovieListScreen
 import com.teguhmuflih.netflixcloneapps.ui.theme.NetflixCloneAppsTheme
 
@@ -28,9 +31,21 @@ class MainActivity : ComponentActivity() {
 
 
 @ExperimentalMaterial3Api
+@Preview
 @Composable
 fun NetflixCloneApp() {
-    NetflixCloneAppsTheme {
-        MovieListScreen()
+    val movies: List<Movie> by rememberSaveable {
+        mutableStateOf(MovieDatasource.getNowPlayingMovie())
+    }
+
+    var isGrid by remember { mutableStateOf(false) }
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = {
+            MovieAppBar(
+                onViewChange = { isGrid = it }
+            )
+        }) { contentPadding ->
+        if (isGrid) MovieGridScreen(paddingValues = contentPadding, movies = movies)
+        else MovieListScreen(contentPadding, movies)
     }
 }

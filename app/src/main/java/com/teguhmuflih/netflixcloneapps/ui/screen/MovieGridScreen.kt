@@ -3,8 +3,9 @@ package com.teguhmuflih.netflixcloneapps.ui.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,13 +20,15 @@ import com.teguhmuflih.netflixcloneapps.ui.component.MovieItem
 
 @ExperimentalMaterial3Api
 @Composable
-fun MovieListScreen(paddingValues: PaddingValues, movies : List<Movie>) {
+fun MovieGridScreen(paddingValues: PaddingValues, movies: List<Movie>) {
 
     val movies: List<Movie> by rememberSaveable {
         mutableStateOf(MovieDatasource.getNowPlayingMovie())
     }
-    LazyColumn(
+    //COMPOSITION -> DRAW -> VIEW
+    LazyVerticalGrid(
         modifier = Modifier.padding(paddingValues),
+        columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(movies) { movie ->
@@ -42,5 +45,5 @@ fun MovieListScreen(paddingValues: PaddingValues, movies : List<Movie>) {
 @Preview
 @Composable
 private fun PreviewMovieList() {
-    MovieListScreen(paddingValues = PaddingValues(), MovieDatasource.getNowPlayingMovie())
+    MovieGridScreen(paddingValues = PaddingValues(), MovieDatasource.getNowPlayingMovie())
 }

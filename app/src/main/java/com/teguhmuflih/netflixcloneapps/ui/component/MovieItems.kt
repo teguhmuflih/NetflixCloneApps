@@ -1,6 +1,5 @@
 package com.teguhmuflih.netflixcloneapps.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.teguhmuflih.netflixcloneapps.R
 import com.teguhmuflih.netflixcloneapps.data.MovieDatasource
 import com.teguhmuflih.netflixcloneapps.domain.model.movie.Movie
@@ -40,8 +41,11 @@ fun MovieItem(
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = painterResource(id = if (isGrid) movie.posterResourceId else movie.backdropResourceId),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(if (isGrid) movie.posterResourceId else movie.backdropResourceId)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = stringResource(id = R.string.movie_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.height(220.dp)
@@ -64,6 +68,7 @@ fun MovieItem(
         Text(
             text = movie.title,
             style = MaterialTheme.typography.titleSmall,
+            maxLines = 1,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.onBackground)
