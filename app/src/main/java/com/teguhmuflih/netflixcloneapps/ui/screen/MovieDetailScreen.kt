@@ -34,10 +34,10 @@ import com.teguhmuflih.netflixcloneapps.ui.component.MovieAppBar
 @Composable
 fun MovieDetailScreen(
     movie: Movie,
-    onBack:() -> Unit
-    ) {
+    onBack: () -> Unit
+) {
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -154,7 +154,6 @@ private fun ContentOverview(modifier: Modifier = Modifier, movie: Movie) {
             width = Dimension.fillToConstraints
         }, text = movie.description, style = TextStyle(color = Color.White))
     }
-
 }
 
 /**
@@ -184,5 +183,5 @@ private fun PreviewContentOverview() {
 @Preview
 @Composable
 private fun PreviewDetailScreen() {
-    MovieDetailScreen(MovieDatasource.getNowPlayingMovie()[1],{})
+    MovieDetailScreen(MovieDatasource.getNowPlayingMovie()[1], {})
 }

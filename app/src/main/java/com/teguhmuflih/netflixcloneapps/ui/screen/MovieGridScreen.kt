@@ -20,8 +20,9 @@ import com.teguhmuflih.netflixcloneapps.ui.component.MovieItem
 
 @ExperimentalMaterial3Api
 @Composable
-fun MovieGridScreen(paddingValues: PaddingValues, movies: List<Movie>) {
-
+fun MovieGridScreen(
+    paddingValues: PaddingValues, movies: List<Movie>,
+) {
     val movies: List<Movie> by rememberSaveable {
         mutableStateOf(MovieDatasource.getNowPlayingMovie())
     }
